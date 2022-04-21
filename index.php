@@ -65,17 +65,32 @@ class GameAssisster {
      return  "Zapisuje do json ptk: {$this->gamePTS}  status: {$this->gameStatus}" ;
     }
 }
+function layoutHead(){
+    ECHO "ROZDANIE ". PHP_EOL;
+    echo "==============". PHP_EOL ;
+    echo "KARTY:". PHP_EOL ;
+    echo "==============". PHP_EOL ;
+}
+function layoutSumCards($pts){
+    echo "==============".PHP_EOL ;
+    echo "WYNIK KART: " .$pts . PHP_EOL ;
+    echo "==============".PHP_EOL ;
+}
+function layoutDecision(){
+    echo "==============".PHP_EOL ;
+    echo "Decyzja: ".makeDecisionSimple(). PHP_EOL ;
+    echo "==============".PHP_EOL ;
+}
+function layoutStatus($status){
+    Echo "STATUS gry: ". $status . PHP_EOL ;
+    echo "==============".PHP_EOL ;
+}
 
-
-
-
-ECHO "ROZDANIE ". PHP_EOL;
-echo "==============". PHP_EOL ;
-echo "KARTY:". PHP_EOL ;
-echo "==============". PHP_EOL ;
+layoutHead();
 $karty = new Deck();
 $karty->getCards();
 echo PHP_EOL ;
+
 /*if (is_int($kartaPierwsza)){
     // przypadek karta 2-10
 }elseif (){
@@ -98,15 +113,12 @@ echo PHP_EOL ;
 }*/
 echo PHP_EOL ;
 $pts = 10 ;
-echo "==============".PHP_EOL ;
-echo "WYNIK KART: " .$pts . PHP_EOL ;
-echo "==============".PHP_EOL ;
+layoutSumCards($pts);
 //todo zmienić na podejmowanie decyzji przez ai
-echo "Decyzja: ".makeDecisionSimple(). PHP_EOL ;
-echo "==============".PHP_EOL ;
+layoutDecision();
 $status = (rand(1,2) == 1) ?  "wygrana" :  "przegrana";
-Echo "STATUS gry: ". $status . PHP_EOL ;
-echo "==============".PHP_EOL ;
+layoutStatus($status);
+
 //todo zrzucić do json status gry -> pkt kart i status gry (wygrana/ przegrana)
 $game = new GameAssisster($pts, $status);
 echo PHP_EOL;
