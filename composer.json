@@ -12,6 +12,7 @@
   "require": {
   },
   "autoload": {
-    "psr-4": { "" : "src/" }
+    "psr-4": { "" : "src" },
+    "files": ["src/funct.php", "src/layout.php"]
   }
 }
