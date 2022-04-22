@@ -29,6 +29,8 @@ require 'vendor/autoload.php';
  *      a.d) jezeli ma powyzej 21 to PRZEGRYWA nieważne ile ma bankier
  *  b) dobieramy kartę i wracamy do 3 PKT
  */
+
+for($i =0 ; $i < 2000 ; $i++){
     echo PHP_EOL;
     layoutHead();
     $graczAI = new Deck();
@@ -40,10 +42,14 @@ require 'vendor/autoload.php';
     $dealerPts = $dealerAI->countCards();
     layoutSumCards($pts);
     $decisionDealer = $dealerAI->makeDecision($dealerPts);
+
     do {
+        echo 1 . PHP_EOL;
         if ($decisionDealer === 'dobierz kartę') {
+            echo 2 . PHP_EOL;
             $dealerPts = $dealerAI->countCards();
-            $decisionDealer = $graczAI->makeDecision($dealerPts);
+            layoutDrawedCard($dealerAI->drawDealerCard());
+            $decisionDealer = $dealerAI->makeDecision($dealerPts);
         } else {
             break;
         }
@@ -84,3 +90,4 @@ require 'vendor/autoload.php';
     $game = new GameAssisster($pts, $status);
     echo PHP_EOL;
     echo $game->saveLog($pts, $status);
+}

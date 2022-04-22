@@ -31,6 +31,9 @@ class Deck {
         $this->playerCards[count($this->playerCards) + 1] = $this->card[rand(0,12)] ;
         return $this->playerCards[count($this->playerCards)];
     }
+    public function drawDealerCard(){
+        $this->playerCards[count($this->playerCards) + 1] = $this->card[rand(0,12)] ;
+    }
     public function makeDecision($game_pts){
          $wonProb = 0;
          $lossProb = 0;
@@ -51,8 +54,6 @@ class Deck {
                 return HOLD;
             }
         }
-        return "" ;
     }
-
 
 }
