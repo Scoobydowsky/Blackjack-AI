@@ -1,8 +1,9 @@
 <?php
-
+const DRAW_CARD = "dobierz kartę";
+const HOLD = "pas" ;
 
 function makeDecisionSimple() :string{
-    $decision = (rand(1,2) == 1) ?  "dobierz kartę" :  "pas";
+    $decision = (rand(1,2) == 1) ?  DRAW_CARD :  HOLD;
     return  $decision ;
 }
 

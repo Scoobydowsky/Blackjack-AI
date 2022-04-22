@@ -1,5 +1,7 @@
 <?php
 
+const STATUS_WON = 'WON' ;
+const STATUS_LOSE = 'LOSE';
 
 require 'vendor/autoload.php';
 /*
@@ -39,33 +41,38 @@ echo PHP_EOL ;
 $pts = $graczAI->countCards();
 
 layoutSumCards($pts);
-//todo zmienić na podejmowanie decyzji przez ai
-$decision = makeDecisionSimple() ;
-layoutDecision($decision);
-//todo jezeli komp chce dobrać kartę wyswietl i wykonaj kod
-if ($decision === 'dobierz kartę'){
-    layoutDrawedCard($graczAI->drawCard());
-    $pts = $graczAI->countCards();
-    layoutSumCards($pts);
+//TODO zmienić na podejmowanie decyzji przez ai
+//$decision = makeDecisionSimple() ;
+$decision = $graczAI->MakeDecision($pts);
+//TODO jezeli komp chce dobrać kartę wyswietl i wykonaj kod
+do{
+    layoutDecision($decision);
+    if ($decision === 'dobierz kartę'){
+        layoutDrawedCard($graczAI->drawCard());
+        $pts = $graczAI->countCards();
+        layoutSumCards($pts);
+        $decision = $graczAI->MakeDecision($pts);
+    }else {
+        break;
+    }
+}while($decision == 'dobierz kartę' && $pts < 21);
 
-}
 //$status = (rand(1,2) == 1) ?  "wygrana" :  "przegrana";
 if($pts > 21){
     echo 'burst'.PHP_EOL;
-    $status = "LOSE";
+    $status = STATUS_LOSE;
 }elseif($pts === 21){
     echo "Blackjack".PHP_EOL;
-    $status = "WON";
+    $status = STATUS_WON;
 }elseif ($pts < 21 /* &&  Ai won */){
-    $status = "WON";
+    $status = STATUS_WON;
 }/*elseif ($pts < 21  &&  Ai lose ){
     $status = "LOSE";
 }*/else {
-    $status = "LOSE";
+    $status = STATUS_LOSE;
 }
 layoutStatus($status);
 
-//todo zrzucić do json status gry -> pkt kart i status gry (wygrana/ przegrana)
 $game = new GameAssisster($pts, $status);
 echo PHP_EOL;
 echo $game->saveLog($pts , $status);
