@@ -29,50 +29,58 @@ require 'vendor/autoload.php';
  *      a.d) jezeli ma powyzej 21 to PRZEGRYWA nieważne ile ma bankier
  *  b) dobieramy kartę i wracamy do 3 PKT
  */
+    echo PHP_EOL;
+    layoutHead();
+    $graczAI = new Deck();
+    $dealerAI = new Deck();
+    $graczAI->getCards();
+    echo PHP_EOL;
 
+    $pts = $graczAI->countCards();
+    $dealerPts = $dealerAI->countCards();
+    layoutSumCards($pts);
+    $decisionDealer = $dealerAI->makeDecision($dealerPts);
+    do {
+        if ($decisionDealer === 'dobierz kartę') {
+            $dealerPts = $dealerAI->countCards();
+            $decisionDealer = $graczAI->makeDecision($dealerPts);
+        } else {
+            break;
+        }
+    } while ($decisionDealer == 'dobierz kartę' && $dealerPts < 21);
 
-echo PHP_EOL ;
-
-layoutHead();
-$graczAI = new Deck();
-$graczAI->getCards();
-echo PHP_EOL ;
-
-$pts = $graczAI->countCards();
-
-layoutSumCards($pts);
 //TODO zmienić na podejmowanie decyzji przez ai
 //$decision = makeDecisionSimple() ;
-$decision = $graczAI->MakeDecision($pts);
+    $decision = $graczAI->makeDecision($pts);
 //TODO jezeli komp chce dobrać kartę wyswietl i wykonaj kod
-do{
-    layoutDecision($decision);
-    if ($decision === 'dobierz kartę'){
-        layoutDrawedCard($graczAI->drawCard());
-        $pts = $graczAI->countCards();
-        layoutSumCards($pts);
-        $decision = $graczAI->MakeDecision($pts);
-    }else {
-        break;
-    }
-}while($decision == 'dobierz kartę' && $pts < 21);
-
+    do {
+        layoutDecision($decision);
+        if ($decision === 'dobierz kartę') {
+            layoutDrawedCard($graczAI->drawCard());
+            $pts = $graczAI->countCards();
+            layoutSumCards($pts);
+            $decision = $graczAI->makeDecision($pts);
+        } else {
+            break;
+        }
+    } while ($decision == 'dobierz kartę' && $pts < 21);
+    layoutDealerSumCards($dealerPts);
 //$status = (rand(1,2) == 1) ?  "wygrana" :  "przegrana";
-if($pts > 21){
-    echo 'burst'.PHP_EOL;
-    $status = STATUS_LOSE;
-}elseif($pts === 21){
-    echo "Blackjack".PHP_EOL;
-    $status = STATUS_WON;
-}elseif ($pts < 21 /* &&  Ai won */){
-    $status = STATUS_WON;
-}/*elseif ($pts < 21  &&  Ai lose ){
-    $status = "LOSE";
-}*/else {
-    $status = STATUS_LOSE;
-}
-layoutStatus($status);
+    if ($pts > 21) {
+        echo 'burst' . PHP_EOL;
+        $status = STATUS_LOSE;
+    } elseif ($pts === 21) {
+        echo "Blackjack" . PHP_EOL;
+        $status = STATUS_WON;
+    } elseif ($pts < 21 && $pts > $dealerPts) {
+        $status = STATUS_WON;
+    } elseif ($pts < 21 && $pts < $dealerPts) {
+        $status = "LOSE";
+    } else {
+        $status = STATUS_LOSE;
+    }
+    layoutStatus($status);
 
-$game = new GameAssisster($pts, $status);
-echo PHP_EOL;
-echo $game->saveLog($pts , $status);
+    $game = new GameAssisster($pts, $status);
+    echo PHP_EOL;
+    echo $game->saveLog($pts, $status);
