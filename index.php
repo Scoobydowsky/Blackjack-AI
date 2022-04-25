@@ -2,6 +2,7 @@
 
 const STATUS_WON = 'WON' ;
 const STATUS_LOSE = 'LOSE';
+const STATUS_DRAW = 'DRAW';
 $wonTURN = 0;
 $loseTURN = 0;
 
@@ -31,6 +32,7 @@ require 'vendor/autoload.php';
  */
 //for load more data switch $i < 1 to more ex. $i < 100 for 100 test ;
 for($i =0 ; $i < 100  ; $i++){
+    //TODO BARDZIEJ CZYTELNE GUI -> przebudowa objektów ?
     echo PHP_EOL;
     layoutHead();
     $graczAI = new Deck();
@@ -75,7 +77,10 @@ for($i =0 ; $i < 100  ; $i++){
         $status = STATUS_WON;
     } elseif ($pts < 21 && $pts < $dealerPts) {
         $status = "LOSE";
-    } else {
+    }elseif($pts < 21 && $pts === $dealerPts){
+        $status = STATUS_DRAW ;
+    }
+    else {
         $status = STATUS_LOSE;
     }
     layoutStatus($status);

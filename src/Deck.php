@@ -20,7 +20,9 @@ class Deck {
             $cardValue = $playerCard;
             if (in_array($cardValue, ['walet', 'dama', 'krol'])) {
                 $cardValue = 10;
-            } elseif ($cardValue === 'as') {
+            }
+            //TODO
+            elseif ($cardValue === 'as') {
                 $cardValue = $pts > 10 ? 1 : 11;
             }
             $pts += $cardValue;
@@ -37,14 +39,16 @@ class Deck {
     public function makeDecision($game_pts){
          $wonProb = 0;
          $lossProb = 0;
-        $file =file_get_contents('src/games.json' );
+        $file = file_get_contents('src/games.json' );
         $oldTable = json_decode($file , true);
         foreach (@$oldTable as ['pts' => $pts, 'status' => $status]){
             if ($game_pts === $pts){
                 if($status === STATUS_WON){
                     $wonProb++ ;
-                }else{
+                }elseif($status === STATUS_LOSE){
                     $lossProb++;
+                }else{
+
                 }
             }
             $prob = $wonProb - $lossProb ;
