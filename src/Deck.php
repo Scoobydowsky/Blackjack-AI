@@ -39,7 +39,7 @@ class Deck {
          $lossProb = 0;
         $file =file_get_contents('src/games.json' );
         $oldTable = json_decode($file , true);
-        foreach ($oldTable as ['pts' => $pts, 'status' => $status]){
+        foreach (@$oldTable as ['pts' => $pts, 'status' => $status]){
             if ($game_pts === $pts){
                 if($status === STATUS_WON){
                     $wonProb++ ;
@@ -48,7 +48,7 @@ class Deck {
                 }
             }
             $prob = $wonProb - $lossProb ;
-            if($prob > 0){
+            if($prob < 0){
                 return DRAW_CARD;
             }else{
                 return HOLD;
