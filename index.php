@@ -50,7 +50,7 @@ for($i =0 ; $i < 1  ; $i++){
     $decision = $graczAI->makeDecision($pts);
 
     do {
-        layoutDecision($decision);
+        layoutAiDecision($decision);
         if ($decision === 'dobierz kartę') {
             layoutDrawedCard($graczAI->drawCard());
             $pts = $graczAI->countCards();

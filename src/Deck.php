@@ -11,8 +11,9 @@ class Deck {
     }
     public function getCards(){
         foreach ($this->playerCards as $playerCard){
-            echo $playerCard . PHP_EOL;
+            echo "{$playerCard} ";
         }
+        echo  PHP_EOL;
     }
     public function countCards(){
         $pts = 0 ;
@@ -58,6 +59,47 @@ class Deck {
                 return HOLD;
             }
         }
-    }
 
+    }
+    public function makeDecisionImproved($won ,$loss){
+        $prob = $won - $loss;
+        if($prob > 0){
+            return HOLD;
+        }else{
+            return DRAW_CARD;
+        }
+    }
+    public function countWon($game_pts): int{
+        $counter = 0 ;
+        $file = file_get_contents('src/games.json' );
+        $oldTable = json_decode($file , true);
+        foreach (@$oldTable as ['pts' => $pts, 'status' => $status]){
+            if ($game_pts === $pts && $status === STATUS_WON){
+                    $counter++ ;
+            }
+        }
+        return $counter;
+    }
+    public function countLoss($game_pts): int{
+        $counterLoss = 0 ;
+        $file = file_get_contents('src/games.json' );
+        $oldTable = json_decode($file , true);
+        foreach (@$oldTable as ['pts' => $pts, 'status' => $status]){
+            if ($game_pts === $pts && $status === STATUS_LOSE){
+                $counterLoss++ ;
+            }
+        }
+        return $counterLoss;
+    }
+    public function countDraw($game_pts): int{
+        $counter = 0 ;
+        $file = file_get_contents('src/games.json' );
+        $oldTable = json_decode($file , true);
+        foreach (@$oldTable as ['pts' => $pts, 'status' => $status]){
+            if ($game_pts === $pts && $status === STATUS_DRAW){
+                $counter++ ;
+            }
+        }
+        return $counter;
+    }
 }
