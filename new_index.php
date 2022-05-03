@@ -8,7 +8,9 @@ $loseTURN = 0;
 
 
 require 'vendor/autoload.php';
-system("clear");
+for($i =0 ; $i < 10 ; $i++){
+    system("clear");
+    echo "PRÓBA : {$i}".PHP_EOL;
 //rozdaj po dwie karty
 $graczAI = new Deck();
 $dealerAI= new Deck();
@@ -36,13 +38,14 @@ layoutStats($wonGames ,$lossGames , $drawGames);
 $decision = $graczAI->makeDecisionImproved($wonGames , $lossGames);
 do {
     layoutAiDecision($decision);
-    PHP_EOL;
+    echo PHP_EOL;
     if ($decision === DRAW_CARD) {
         layoutDrawedCard($graczAI->drawCard());
-
+        echo PHP_EOL;
         layoutAiCards();
         $graczAI->getCards();
         $aiPTS = $graczAI->countCards();
+        echo PHP_EOL;
         layoutSumCards($aiPTS);
 //pokaż wygrane przegrane i remisy
         layoutDecision();
@@ -59,7 +62,34 @@ do {
 } while ($decision == DRAW_CARD && $aiPTS < 21);
 //pokaż punkty Ai i dealera
 layoutShowAiAndDealerPTS($aiPTS , $dealerPTS);
-//wylicz kto wygrał
-
+//sprawdź czy ai wygrało/zemisowało/przegrało
+if($aiPTS > $dealerPTS && $aiPTS <= 21){
+    $status = STATUS_WON;
+}elseif ($aiPTS > $dealerPTS && $aiPTS > 21){
+    $status = STATUS_LOSE;
+}elseif ($aiPTS == $dealerPTS && $aiPTS > 21){
+    $status = STATUS_LOSE;
+}elseif ($aiPTS == $dealerPTS && $aiPTS < 21){
+    $status = STATUS_DRAW;
+}elseif($aiPTS < $dealerPTS && $dealerPTS > 21){
+    $status = STATUS_WON;
+}elseif($aiPTS < $dealerPTS && $dealerPTS < 21){
+    $status = STATUS_LOSE;
+}
 //ogłoś wygraną
+layoutStatus($status);
 //zapisz dane do json
+$game = new GameAssisster($aiPTS , $status);
+$game->saveLog($aiPTS,$status);
+//Statystyki do uczenia
+if($status == STATUS_WON){
+    @$wonTURN++;
+}else{
+    @$loseTURN++;
+}
+
+}
+echo "================================================".PHP_EOL;
+echo "statystyki sesji:".PHP_EOL;
+echo "Wygrane : {$wonTURN} Przegrane: {$loseTURN}".PHP_EOL;
+echo "================================================".PHP_EOL;

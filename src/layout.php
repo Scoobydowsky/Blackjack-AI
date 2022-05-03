@@ -28,7 +28,7 @@ function layoutStatus($status){
     echo "==============".PHP_EOL ;
 }
 function layoutDrawedCard($karta){
-    echo "Dobrano kartę: ".PHP_EOL.$karta. PHP_EOL ;
+    echo "Dobrano kartę: {$karta}". PHP_EOL ;
 }
 function layoutDealerSumCards($dealerPts){
     echo PHP_EOL;
