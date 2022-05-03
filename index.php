@@ -31,7 +31,7 @@ require 'vendor/autoload.php';
  *  b) dobieramy kartę i wracamy do 3 PKT
  */
 //for load more data switch $i < 1 to more ex. $i < 100 for 100 test ;
-for($i =0 ; $i < 100  ; $i++){
+for($i =0 ; $i < 1  ; $i++){
     //TODO BARDZIEJ CZYTELNE GUI -> przebudowa objektów ?
     echo PHP_EOL;
     layoutHead();
@@ -39,7 +39,6 @@ for($i =0 ; $i < 100  ; $i++){
     $dealerAI = new Deck();
     $graczAI->getCards();
     echo PHP_EOL;
-
     $pts = $graczAI->countCards();
     $dealerPts = $dealerAI->countCards();
     layoutSumCards($pts);
