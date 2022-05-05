@@ -79,8 +79,10 @@ if($aiPTS > $dealerPTS && $aiPTS <= 21){
 //ogłoś wygraną
 layoutStatus($status);
 //zapisz dane do json
+
+    //TODO dodać wartość kart dealera oraz jaką decyzje podjeliscie
 $game = new GameAssisster($aiPTS , $status);
-$game->saveLog($aiPTS,$status);
+echo $game->saveLog($aiPTS,$status);
 //Statystyki do uczenia
 if($status == STATUS_WON){
     @$wonTURN++;
