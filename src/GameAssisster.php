@@ -16,7 +16,7 @@ class GameAssisster {
         $newContentTable = [ "pts" => $pts , "status" => $status];
         $oldTable[] = $newContentTable ;
         file_put_contents('src/games.json',json_encode($oldTable) ,);
-        return  "Zapisuje do json ptk: {$this->gamePTS}  status: {$this->gameStatus}" ;
+        return  "Zapisuje do json ptk: {$this->gamePTS}  status: {$this->gameStatus}".PHP_EOL ;
     }
 
     public function saveLogDealer($ptsDealer, $statusDealer){

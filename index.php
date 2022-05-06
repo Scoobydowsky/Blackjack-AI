@@ -2,6 +2,7 @@
 
 const STATUS_WON = 'WON' ;
 const STATUS_LOSE = 'LOSE';
+const STATUS_DRAW = 'DRAW';
 $wonTURN = 0;
 $loseTURN = 0;
 
@@ -30,14 +31,14 @@ require 'vendor/autoload.php';
  *  b) dobieramy kartę i wracamy do 3 PKT
  */
 //for load more data switch $i < 1 to more ex. $i < 100 for 100 test ;
-for($i =0 ; $i < 100  ; $i++){
+for($i =0 ; $i < 1  ; $i++){
+    //TODO BARDZIEJ CZYTELNE GUI -> przebudowa objektów ?
     echo PHP_EOL;
     layoutHead();
     $graczAI = new Deck();
     $dealerAI = new Deck();
     $graczAI->getCards();
     echo PHP_EOL;
-
     $pts = $graczAI->countCards();
     $dealerPts = $dealerAI->countCards();
     layoutSumCards($pts);
@@ -49,7 +50,7 @@ for($i =0 ; $i < 100  ; $i++){
     $decision = $graczAI->makeDecision($pts);
 
     do {
-        layoutDecision($decision);
+        layoutAiDecision($decision);
         if ($decision === 'dobierz kartę') {
             layoutDrawedCard($graczAI->drawCard());
             $pts = $graczAI->countCards();
@@ -75,7 +76,10 @@ for($i =0 ; $i < 100  ; $i++){
         $status = STATUS_WON;
     } elseif ($pts < 21 && $pts < $dealerPts) {
         $status = "LOSE";
-    } else {
+    }elseif($pts < 21 && $pts === $dealerPts){
+        $status = STATUS_DRAW ;
+    }
+    else {
         $status = STATUS_LOSE;
     }
     layoutStatus($status);
