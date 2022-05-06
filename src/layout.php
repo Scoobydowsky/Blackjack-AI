@@ -31,3 +31,8 @@ function layoutDrawedCard($karta){
     echo "Dobrano kartę: ".$karta. PHP_EOL ;
     echo "==============".PHP_EOL ;
 }
+function layoutDealerSumCards($dealerPts){
+    echo '================'.PHP_EOL;
+    echo "Dealer ma w ręce: {$dealerPts}".PHP_EOL ;
+
+}

@@ -6,7 +6,7 @@ class Deck {
     public $playerCards = [];
     public function __Construct() {
         for ( $i = 0; $i < 2 ; $i++){
-            $this->playerCards[$i] = $this->card[rand(0, 4)] ;
+            $this->playerCards[$i] = $this->card[rand(0,12)] ;
         }
     }
     public function getCards(){
@@ -31,12 +31,15 @@ class Deck {
         $this->playerCards[count($this->playerCards) + 1] = $this->card[rand(0,12)] ;
         return $this->playerCards[count($this->playerCards)];
     }
-    public function MakeDecision($game_pts){
+    public function drawDealerCard(){
+        $this->playerCards[count($this->playerCards) + 1] = $this->card[rand(0,12)] ;
+    }
+    public function makeDecision($game_pts){
          $wonProb = 0;
          $lossProb = 0;
         $file =file_get_contents('src/games.json' );
         $oldTable = json_decode($file , true);
-        foreach ($oldTable as ['pts' => $pts, 'status' => $status]){
+        foreach (@$oldTable as ['pts' => $pts, 'status' => $status]){
             if ($game_pts === $pts){
                 if($status === STATUS_WON){
                     $wonProb++ ;
@@ -45,13 +48,12 @@ class Deck {
                 }
             }
             $prob = $wonProb - $lossProb ;
-            if($prob > 0){
+            if($prob < 0){
                 return DRAW_CARD;
             }else{
                 return HOLD;
             }
         }
     }
-
 
 }
