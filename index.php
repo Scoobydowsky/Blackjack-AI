@@ -32,7 +32,6 @@ require 'vendor/autoload.php';
  */
 //for load more data switch $i < 1 to more ex. $i < 100 for 100 test ;
 for($i =0 ; $i < 1  ; $i++){
-    //TODO BARDZIEJ CZYTELNE GUI -> przebudowa objektów ?
     echo PHP_EOL;
     layoutHead();
     $graczAI = new Deck();
@@ -62,7 +61,6 @@ for($i =0 ; $i < 1  ; $i++){
     } while ($decision == 'dobierz kartę' && $pts < 21);
     layoutDealerSumCards($dealerPts);
 //$status = (rand(1,2) == 1) ?  "wygrana" :  "przegrana";
-    //TODO IFY DO SPRAWDZENIA
     if ($pts > 21) {
         echo 'burst' . PHP_EOL;
         $status = STATUS_LOSE;

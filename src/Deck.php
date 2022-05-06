@@ -22,7 +22,6 @@ class Deck {
             if (in_array($cardValue, ['walet', 'dama', 'krol'])) {
                 $cardValue = 10;
             }
-            //TODO
             elseif ($cardValue === 'as') {
                 $cardValue = $pts > 10 ? 1 : 11;
             }
