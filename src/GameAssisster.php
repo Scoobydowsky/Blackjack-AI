@@ -28,4 +28,11 @@ class GameAssisster {
 
         return "Zapisuje do json dealera pkt {$ptsDealer} oraz status {$statusDealer}";
     }
+    function saveDrawData($pts , $decision){
+        $drawDataFile = file_get_contents('src/draw.json');
+        $drawData = json_decode($drawDataFile,true);
+        $newDataContent = ["pts"=> $pts , "Decision"=> $decision];
+        $drawData[] = $newDataContent;
+        file_put_contents('src/draw.json');
+    }
 }
