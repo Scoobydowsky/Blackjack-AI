@@ -35,4 +35,7 @@ class GameAssisster {
         $drawData[] = $newDataContent;
         file_put_contents('src/draw.json');
     }
+    function readDrawData() : string {
+        $drawDataFile = file_get_contents('src/draw.json')
+    }
 }
