@@ -2,7 +2,7 @@
 /*TODO
  * PRZEBUDOWA WNIOSKOWANIA
  * -> POBIERA DANE DODATKOWO Z DRAW JSON (który przechowuje informacje o poprzednich pobraniach kart)
- * dzieki któremu ai zacznie unikać burst'a ( ai > 21)
+ * dzieki któremu ai zacznie unikać burst'a ( $aiPTS > 21)
  * ->dodanie danych do games json (w chwili obecnej jest ilosć pkt ai i status wygranej) musimy dodać
  *  +ilosc pkt dealera
  *  +jaką decyzje podjęła AI w tamtej grze
@@ -16,7 +16,7 @@ $loseTURN = 0;
 
 
 require 'vendor/autoload.php';
-for($i =0 ; $i < 10 ; $i++){
+for($i =0 ; $i < 1 ; $i++){
     system("clear");
     echo "PRÓBA : {$i}".PHP_EOL;
 //rozdaj po dwie karty
@@ -88,7 +88,6 @@ if($aiPTS > $dealerPTS && $aiPTS <= 21){
 layoutStatus($status);
 //zapisz dane do json
 
-    //TODO dodać wartość kart dealera oraz jaką decyzje podjeliscie
 $game = new GameAssisster($aiPTS , $status);
 echo $game->saveLog($aiPTS,$status);
 //Statystyki do uczenia
