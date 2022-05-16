@@ -35,7 +35,15 @@ class GameAssisster {
         $drawData[] = $newDataContent;
         file_put_contents('src/draw.json');
     }
-    function readDrawData() : string {
-        $drawDataFile = file_get_contents('src/draw.json')
+    function readDrawData($aiPts){
+        $drawDataFile = file_get_contents('src/draw.json');
+        $drawDataMatrix = json_decode($drawDataFile, true);
+        foreach ($drawDataMatrix as ['pts' => $pts, 'decision'=> $decision]){
+            if($aiPts == $pts){
+                //todo counting draw/hold on equal pts
+
+            }
+
+        }
     }
 }

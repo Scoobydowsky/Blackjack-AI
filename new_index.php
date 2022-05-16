@@ -7,6 +7,12 @@
  *  +ilosc pkt dealera
  *  +jaką decyzje podjęła AI w tamtej grze
  * mozliwe ze zamiast dodawać to do games json powinniśmy to dodać do decision json na którym to ai bedzie wnioskować czy dobierać czy nie
+ *
+ *
+ *      1etap - poczatek 0 wpisow
+ *      2etap - 10.000 wpisow
+ *      3etap - 1.000.000 wpisow
+ *
  */
 const STATUS_WON = 'WON' ;
 const STATUS_LOSE = 'LOSE';
@@ -16,7 +22,7 @@ $loseTURN = 0;
 
 
 require 'vendor/autoload.php';
-for($i =0 ; $i < 1 ; $i++){
+for($i =0 ; $i < 50 ; $i++){
     system("clear");
     echo "PRÓBA : {$i}".PHP_EOL;
 //rozdaj po dwie karty
@@ -70,7 +76,7 @@ do {
 } while ($decision == DRAW_CARD && $aiPTS < 21);
 //pokaż punkty Ai i dealera
 layoutShowAiAndDealerPTS($aiPTS , $dealerPTS);
-//sprawdź czy ai wygrało/zemisowało/przegrało
+//TODO MANIA sprawdź czy ai wygrało/zemisowało/przegrało
 if($aiPTS > $dealerPTS && $aiPTS <= 21){
     $status = STATUS_WON;
 }elseif ($aiPTS > $dealerPTS && $aiPTS > 21){

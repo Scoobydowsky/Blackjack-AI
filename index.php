@@ -15,8 +15,6 @@ require 'vendor/autoload.php';
  * dama 10
  * as 1 albo 11
  *
- */
-/*
  * 1. KOMPUTER POBIERA 2 KARTY -> done
  * 2. KOMPUTER LICZY ICH WARTOŚĆ
  * 3. KOMPUTER PODEJMUJE DECYJZE CZY POBRAĆ KART
@@ -31,7 +29,7 @@ require 'vendor/autoload.php';
  *  b) dobieramy kartę i wracamy do 3 PKT
  */
 //for load more data switch $i < 1 to more ex. $i < 100 for 100 test ;
-for($i =0 ; $i < 1  ; $i++){
+for($i =0 ; $i < 10  ; $i++){
     echo PHP_EOL;
     layoutHead();
     $graczAI = new Deck();
