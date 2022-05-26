@@ -4,9 +4,6 @@
  * -> POBIERA DANE DODATKOWO Z DRAW JSON (który przechowuje informacje o poprzednich pobraniach kart)
  * dzieki któremu ai zacznie unikać burst'a ( $aiPTS > 21)
  * ->dodanie danych do games json (w chwili obecnej jest ilosć pkt ai i status wygranej) musimy dodać
- *  +ilosc pkt dealera
- *  +jaką decyzje podjęła AI w tamtej grze
- * mozliwe ze zamiast dodawać to do games json powinniśmy to dodać do decision json na którym to ai bedzie wnioskować czy dobierać czy nie
  *
  *
  *      1etap - poczatek 0 wpisow

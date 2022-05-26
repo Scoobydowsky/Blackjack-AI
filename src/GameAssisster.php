@@ -35,15 +35,30 @@ class GameAssisster {
         $drawData[] = $newDataContent;
         file_put_contents('src/draw.json');
     }
-    function readDrawData($aiPts){
+    function readDrawData ($aiPts){
+        $drawAccidents = 0 ;
+        $moreAccidents = 0 ;
+        $lessAccidents = 0 ;
         $drawDataFile = file_get_contents('src/draw.json');
         $drawDataMatrix = json_decode($drawDataFile, true);
         foreach ($drawDataMatrix as ['pts' => $pts, 'decision'=> $decision]){
-            if($aiPts == $pts){
-                //todo counting draw/hold on equal pts
-
+            if($aiPts == $pts ){
+                $drawAccidents++;
             }
-
+            if ($aiPts > $pts) {
+                $moreAccidents++;
+            }
+            if ($aiPts < $pts && $decision == HOLD) {
+                $lessAccidents++;
+            }
         }
+        $count_prof = $drawAccidents /  ($drawAccidents + $moreAccidents + $lessAccidents) ;
+        if ($count_prof > 0.8 ){
+            return DRAW_CARD;
+        }else{
+            return HOLD ;
+        }
+
     }
 }
+
