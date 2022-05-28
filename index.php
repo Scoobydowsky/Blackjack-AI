@@ -1,97 +1,150 @@
 <?php
-
-const STATUS_WON = 'WON' ;
+/* test mode -> using predefinment Deck funct where ai get on
+ *  NO  |   PLAYER  |   DEALER  |   EXP DECISION    |   GAME STATUS
+ *  1   |   21      |   10      |   HOLD            |   WON (BLACKJACK)
+ */
+$testModeOn = 0 ;
+/*if($testModeOn === 0){
+    include 'src/Deck.php';
+}else{
+    include 'src/DeckTest.php';
+}*/
+require 'vendor/autoload.php';
+include 'src/Layout.php';
+include 'src/Deck.php';
+include 'src/GameAssister.php';
+const STATUS_WON = 'WON';
 const STATUS_LOSE = 'LOSE';
 const STATUS_DRAW = 'DRAW';
-$wonTURN = 0;
-$loseTURN = 0;
+
+const DRAW_CARD = 'DRAW CARD';
+const HOLD = 'HOLD';
+
+//change this to play more games, learn ai
+$games = 1 ;
+//define you want to see all games in your console or only last
+$clearCmdAfterOneGame = 0 ;
+
+$setStatus = '' ;
+
+for ($i= 0 ; $i < $games; $i++){
+    system("clear");
+    ($clearCmdAfterOneGame === 1) ? system("clear") : " " ;
+    $gameNo = $i+1;
+    $layout = new Layout();
+    $gameAssister = new GameAssister();
+    $layout ->head($gameNo);
+
+    //rozdaj dwie karty
+    $playerAI = new Deck\Deck();
+    $dealerAI = new Deck\Deck();
+
+    //show on screen
+    $layout ->showCards(0, $dealerAI);
+    $layout ->showCards(1, $playerAI);
+
+    //przelicz punkty
+    $dealerAIPTS= $dealerAI->countCards();
+    $playerAiPts = $playerAI->countCards();
 
 
-require 'vendor/autoload.php';
-/*
- * 2-10 wartosci
- * krol 10
- * walet 10
- * dama 10
- * as 1 albo 11
- *
- * 1. KOMPUTER POBIERA 2 KARTY -> done
- * 2. KOMPUTER LICZY ICH WARTOŚĆ
- * 3. KOMPUTER PODEJMUJE DECYJZE CZY POBRAĆ KART
- *  a) komputer pasuje
- *  b) komputer dobiera kartę
- * 4.
- *  a) przeliczamy czy "gracz" ma wiecej niż bankier
- *      a.a) jezeli ma wiecej niz bankier a  < 21 to WYGRANA
- *      a.b) jezeli ma równo jak bankier to WYGRANA
- *      a.c) jezeli ma mniej niż bankier to PRZEGRANA
- *      a.d) jezeli ma powyzej 21 to PRZEGRYWA nieważne ile ma bankier
- *  b) dobieramy kartę i wracamy do 3 PKT
- */
-//for load more data switch $i < 1 to more ex. $i < 100 for 100 test ;
-for($i =0 ; $i < 10  ; $i++){
-    echo PHP_EOL;
-    layoutHead();
-    $graczAI = new Deck();
-    $dealerAI = new Deck();
-    $graczAI->getCards();
-    echo PHP_EOL;
-    $pts = $graczAI->countCards();
-    $dealerPts = $dealerAI->countCards();
-    layoutSumCards($pts);
-    $dealerAI->drawCard();
-    $dealerPts =$dealerAI->countCards();
-    $dealerAI->getCards();
+    //wyniki wnioskowania czy przerwać teraz grę, dobrać kartę
+    $prevGamesWon = $playerAI->countWonGamesInHistory($playerAiPts);
+    $drawCardsProof = $playerAI->drawCardProf($dealerAI ,$playerAiPts);
 
+    $proofOFtwo = ($prevGamesWon + $drawCardsProof)/ 2 ;
+    // decyzja co robi ai
+    if ($proofOFtwo == 0.0){
+        //brak danych o poprzednich grach wiec wykonaj to losowo
+        $k = rand(1,50); // randomize effect of drawing card
+        for($j =0 ; $j < $k ; $j++){
+            $drawDecision = rand(1,2) ;
+        }
+    }else{
+        //TODO wyciagaj wnioski na podstawie wiedzy o poprzednich grach
+    }
 
-    $decision = $graczAI->makeDecision($pts);
-
-    do {
-        layoutAiDecision($decision);
-        if ($decision === 'dobierz kartę') {
-            layoutDrawedCard($graczAI->drawCard());
-            $pts = $graczAI->countCards();
-            layoutSumCards($pts);
-            $decision = $graczAI->makeDecision($pts);
-        } else {
+    if($drawDecision == 1){
+        $decision = DRAW_CARD;
+    }else{
+        $decision = HOLD ;
+    }
+    $layout->showDecision($decision);
+    do{
+        //if ai make decision to hold escape
+        if($decision === HOLD){
             break;
         }
-    } while ($decision == 'dobierz kartę' && $pts < 21);
-    layoutDealerSumCards($dealerPts);
-//$status = (rand(1,2) == 1) ?  "wygrana" :  "przegrana";
-    if ($pts > 21) {
-        echo 'burst' . PHP_EOL;
-        $status = STATUS_LOSE;
-    } elseif ($pts === 21) {
-        echo "Blackjack" . PHP_EOL;
-        $status = STATUS_WON;
-    }elseif($pts < 21 && $dealerPts > 21){
-        $status = STATUS_WON;
-    }
-    elseif ($pts < 21 && $pts > $dealerPts) {
-        $status = STATUS_WON;
-    } elseif ($pts < 21 && $pts < $dealerPts) {
-        $status = "LOSE";
-    }elseif($pts < 21 && $pts === $dealerPts){
-        $status = STATUS_DRAW ;
-    }
-    else {
-        $status = STATUS_LOSE;
-    }
-    layoutStatus($status);
-    if($status == STATUS_WON){
-        @$wonTURN++;
-    }else{
-        @$loseTURN++;
-    }
+
+        if($playerAiPts > 21 || $dealerAIPTS > 21){
+            //annouce player/ dealer loose
+            break;
+        }
+        $playerAI->drawCard();
+        //TODO save to draw json
+
+        //show on screen
+        $layout ->showCards(0, $dealerAI);
+        $layout ->showCards(1, $playerAI);
+
+        //przelicz punkty
+        $dealerAIPTS= $dealerAI->countCards();
+        $playerAiPts = $playerAI->countCards();
 
 
-    $game = new GameAssisster($pts, $status);
-    echo PHP_EOL;
-    echo $game->saveLog($pts, $status);
+        //wyniki wnioskowania czy przerwać teraz grę, dobrać kartę
+        $prevGamesWon = $playerAI->countWonGamesInHistory($playerAiPts);
+        $drawCardsProof = $playerAI->drawCardProf($dealerAI ,$playerAiPts);
+
+        $proofOFtwo = ($prevGamesWon + $drawCardsProof)/ 2 ;
+        // decyzja co robi ai
+        if ($proofOFtwo == 0.0){
+            //brak danych o poprzednich grach wiec wykonaj to losowo
+            $k = rand(1,50); // randomize effect of drawing card
+            for($j =0 ; $j < $k ; $j++){
+                $drawDecision = rand(1,2) ;
+            }
+        }else{
+            //TODO wyciagaj wnioski na podstawie wiedzy o poprzednich grach
+        }
+
+        if($drawDecision == 1){
+            $decision = DRAW_CARD;
+        }else{
+            $decision = HOLD ;
+        }
+        if($playerAiPts > 21){
+            $setStatus = STATUS_LOSE ;
+            break;
+        }
+
+        $layout->showDecision($decision);
+    }while($drawDecision == 1);
+    //check is burst by dealer
+  if($dealerAIPTS > $playerAiPts && $dealerAIPTS <= 21 || $playerAiPts > 21 ){
+      $setStatus = STATUS_LOSE;
+  }
+  if($dealerAIPTS < $playerAiPts && $playerAiPts <= 21 || $dealerAIPTS > 21){
+      $setStatus = STATUS_WON ;
+  }
+  if($dealerAIPTS == $playerAiPts && ($dealerAIPTS && $playerAiPts) <= 21){
+      $setStatus = STATUS_DRAW ;
+  }
+    $layout->EndGameStatus($setStatus);
+    //save data in draw json
+
+
+
+    /*
+     //count winner and looser
+     * if status = hold then save status in games
+     *
+     *
+    */
+
+
+    //sprawdz czy gra nie jest z góry wygrana
+
+
 
 }
-echo PHP_EOL;
-echo PHP_EOL;
-echo PHP_EOL;
-echo "Wygrane : {$wonTURN} Przegrane: {$loseTURN}";

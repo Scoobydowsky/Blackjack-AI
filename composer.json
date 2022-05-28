@@ -1,18 +1,17 @@
 {
-  "name": "scoobydowsky/blackjack-ai",
-  "description": "description",
-  "minimum-stability": "stable",
-  "license": "proprietary",
-  "authors": [
-    {
-      "name": "tomas",
-      "email": "email@example.com"
-    }
-  ],
-  "require": {
-  },
-  "autoload": {
-    "psr-4": { "" : "src" },
-    "files": ["src/funct.php", "src/layout.php"]
-  }
+    "name": "scoobydowsky/blackjack-ai-2.0",
+    "description": "Simple AI blackjack game for AI classes",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": { "": "src/"},
+        "files": ["src/Deck.php", "src/Layout.php"]
+    },
+    "authors": [
+        {
+            "name": "Scoobydowsky",
+            "email": "tomas.woytkowiak1505@gmail.com"
+        }
+    ],
+    "require": {}
 }

@@ -1,22 +1,22 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => 'dev-master',
-        'version' => 'dev-master',
-        'type' => 'library',
+        'pretty_version' => '1.0.0+no-version-set',
+        'version' => '1.0.0.0',
+        'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'a3d214acf37628924bfe86fbbe32575d94959ecd',
-        'name' => 'scoobydowsky/blackjack-ai',
+        'reference' => NULL,
+        'name' => 'scoobydowsky/blackjack-ai-2.0',
         'dev' => true,
     ),
     'versions' => array(
-        'scoobydowsky/blackjack-ai' => array(
-            'pretty_version' => 'dev-master',
-            'version' => 'dev-master',
-            'type' => 'library',
+        'scoobydowsky/blackjack-ai-2.0' => array(
+            'pretty_version' => '1.0.0+no-version-set',
+            'version' => '1.0.0.0',
+            'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'a3d214acf37628924bfe86fbbe32575d94959ecd',
+            'reference' => NULL,
             'dev_requirement' => false,
         ),
     ),

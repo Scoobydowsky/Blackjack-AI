@@ -4,15 +4,20 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit030dc6e058478610251f3e064685ca58
+class ComposerStaticInitde9a8b27dd01dfb2285e3c921569c3ab
 {
-    public static $files = array (
-        '02e74bd0d953515737af51e15f4fbe1e' => __DIR__ . '/../..' . '/src/funct.php',
-        'd4431935b7c96b4ded7e075cc67ecc87' => __DIR__ . '/../..' . '/src/layout.php',
+    public static $prefixLengthsPsr4 = array (
+        'S' => 
+        array (
+            'Scoobydowsky\\BlackjackAi20\\' => 27,
+        ),
     );
 
-    public static $fallbackDirsPsr4 = array (
-        0 => __DIR__ . '/../..' . '/src',
+    public static $prefixDirsPsr4 = array (
+        'Scoobydowsky\\BlackjackAi20\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src',
+        ),
     );
 
     public static $classMap = array (
@@ -22,8 +27,9 @@ class ComposerStaticInit030dc6e058478610251f3e064685ca58
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->fallbackDirsPsr4 = ComposerStaticInit030dc6e058478610251f3e064685ca58::$fallbackDirsPsr4;
-            $loader->classMap = ComposerStaticInit030dc6e058478610251f3e064685ca58::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitde9a8b27dd01dfb2285e3c921569c3ab::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitde9a8b27dd01dfb2285e3c921569c3ab::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitde9a8b27dd01dfb2285e3c921569c3ab::$classMap;
 
         }, null, ClassLoader::class);
     }
