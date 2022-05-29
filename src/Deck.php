@@ -82,7 +82,7 @@ class Deck
         if(empty($drawTable)){
 
         }else{
-            foreach (@$drawTable as ['ptsAI' => $ptsAI, 'ptsPlayer'=> $ptsPlayer , 'status' => $decision]){
+            foreach ($drawTable as ['ptsAI' => $ptsAI, 'ptsPlayer'=> $ptsPlayer , 'status' => $decision]){
                 //count drawed status
                 if($ptsAI == $currentAiPTS && $ptsPlayer == $currentPlayerPTS && $decision == DRAW_CARD){
                     $countDraws++ ;
@@ -96,7 +96,7 @@ class Deck
         if(($countHolds + $countDraws) === 0 ){
             $didDrawCard = 0 ;
         }else{
-            $didDrawCard = $countDraws/($countHolds + $countDraws);
+            $didDrawCard = $countHolds/($countHolds + $countDraws);
         }
 
         return $didDrawCard;

@@ -15,13 +15,16 @@ include 'src/Deck.php';
 include 'src/GameAssister.php';
 const STATUS_WON = 'WON';
 const STATUS_LOSE = 'LOSE';
-const STATUS_DRAW = 'DRAW';
+const STATUS_DRAW = 'TIE';
 
 const DRAW_CARD = 'DRAW CARD';
 const HOLD = 'HOLD';
 
+$counterWon = 0;
+$counterLose = 0;
+$counterTie = 0;
 //change this to play more games, learn ai
-$games = 1 ;
+$games = 100 ;
 //define you want to see all games in your console or only last
 $clearCmdAfterOneGame = 0 ;
 
@@ -49,8 +52,8 @@ for ($i= 0 ; $i < $games; $i++){
 
 
     //wyniki wnioskowania czy przerwać teraz grę, dobrać kartę
-    $prevGamesWon = $playerAI->countWonGamesInHistory($playerAiPts);
-    $drawCardsProof = $playerAI->drawCardProf($dealerAI ,$playerAiPts);
+    @$prevGamesWon = $playerAI->countWonGamesInHistory($playerAiPts);
+    @$drawCardsProof = $playerAI->drawCardProf($dealerAI ,$playerAiPts);
 
     $proofOFtwo = ($prevGamesWon + $drawCardsProof)/ 2 ;
     // decyzja co robi ai
@@ -61,6 +64,11 @@ for ($i= 0 ; $i < $games; $i++){
             $drawDecision = rand(1,2) ;
         }
     }else{
+        if($proofOFtwo > 0.5){
+            $setStatus = HOLD;
+        }else{
+            $setStatus = DRAW_CARD;
+        }
         //TODO wyciagaj wnioski na podstawie wiedzy o poprzednich grach
     }
 
@@ -76,10 +84,13 @@ for ($i= 0 ; $i < $games; $i++){
             break;
         }
 
-        if($playerAiPts > 21 || $dealerAIPTS > 21){
+        if($playerAiPts > 21 || $dealerAIPTS > 21) {
             //annouce player/ dealer loose
             break;
         }
+        $gameAssister->saveToDrawJson($dealerAIPTS,$playerAiPts,$decision);
+
+
         $playerAI->drawCard();
         //TODO save to draw json
 
@@ -93,8 +104,8 @@ for ($i= 0 ; $i < $games; $i++){
 
 
         //wyniki wnioskowania czy przerwać teraz grę, dobrać kartę
-        $prevGamesWon = $playerAI->countWonGamesInHistory($playerAiPts);
-        $drawCardsProof = $playerAI->drawCardProf($dealerAI ,$playerAiPts);
+        @$prevGamesWon = $playerAI->countWonGamesInHistory($playerAiPts);
+        @$drawCardsProof = $playerAI->drawCardProf($dealerAI ,$playerAiPts);
 
         $proofOFtwo = ($prevGamesWon + $drawCardsProof)/ 2 ;
         // decyzja co robi ai
@@ -105,7 +116,11 @@ for ($i= 0 ; $i < $games; $i++){
                 $drawDecision = rand(1,2) ;
             }
         }else{
-            //TODO wyciagaj wnioski na podstawie wiedzy o poprzednich grach
+            if($proofOFtwo > 0.5){
+                $setStatus = HOLD;
+            }else{
+                $setStatus = DRAW_CARD;
+            }
         }
 
         if($drawDecision == 1){
@@ -146,5 +161,14 @@ for ($i= 0 ; $i < $games; $i++){
     //sprawdz czy gra nie jest z góry wygrana
 
 
-
+    @$gameAssister->saveGamesJson($dealerAIPTS,$playerAiPts,$setStatus);
+    if($setStatus == STATUS_WON){
+        $counterWon++;
+    }elseif($setStatus == STATUS_LOSE){
+        $counterLose++;
+    }else{
+        $counterTie++;
+    }
 }
+
+echo "Wygrane {$counterWon} Przegrane {$counterLose}  REmisy {$counterTie}";
