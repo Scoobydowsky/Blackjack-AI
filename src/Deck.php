@@ -1,6 +1,6 @@
 <?php
 
-namespace Deck ;
+namespace Cos;
 
 class Deck
 {
@@ -8,7 +8,7 @@ class Deck
     public $playerCards = [];
 
     public function __Construct(){
-        for ( $i = 0; $i < 2 ; $i++){
+        for ( $i = 0; $i < 1 ; $i++){
             $this->playerCards[$i] = $this->card[rand(0,12)] ;
         }
     }
@@ -43,7 +43,7 @@ class Deck
 
         }else{
         //count games with this same
-            foreach (@$oldTable as ['pts' => $pts, 'status' => $status]){
+            foreach (@$oldTable as ['ptsPlayer' => $pts, 'status' => $status]){
                 //won games counter
                 if ($playerPTS === $pts && $status === STATUS_WON){
                     $countWon++ ;
@@ -63,6 +63,7 @@ class Deck
             $prof = 0;
         }else{
             $prof = $countWon / ($countWon + $countLose + $countDraw);
+
         }
 
 
@@ -84,11 +85,11 @@ class Deck
         }else{
             foreach ($drawTable as ['ptsAI' => $ptsAI, 'ptsPlayer'=> $ptsPlayer , 'status' => $decision]){
                 //count drawed status
-                if($ptsAI == $currentAiPTS && $ptsPlayer == $currentPlayerPTS && $decision == DRAW_CARD){
+                if($ptsAI == $currentAiPTS && $ptsPlayer == $currentPlayerPTS && $decision == \DRAW_CARD){
                     $countDraws++ ;
                 }
                 //count holded status
-                if($ptsAI == $currentAiPTS && $ptsPlayer == $currentPlayerPTS && $decision == HOLD){
+                if($ptsAI == $currentAiPTS && $ptsPlayer == $currentPlayerPTS && $decision == \HOLD){
                     $countHolds++;
                 }
             }

@@ -4,8 +4,7 @@
     "type": "project",
     "license": "MIT",
     "autoload": {
-        "psr-4": { "": "src/"},
-        "files": ["src/Deck.php", "src/Layout.php"]
+        "psr-4": { "Cos\\": "src/"}
     },
     "authors": [
         {

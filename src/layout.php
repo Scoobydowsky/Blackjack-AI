@@ -1,5 +1,6 @@
 <?php
 
+namespace Cos;
 class Layout{
     function head($gameNo)
     {
