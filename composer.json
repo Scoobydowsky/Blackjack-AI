@@ -4,7 +4,7 @@
     "type": "project",
     "license": "MIT",
     "autoload": {
-        "psr-4": { "Cos\\": "src/"}
+        "psr-4": { "BlackjackAi\\": "src/"}
     },
     "authors": [
         {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Cos;
+namespace BlackjackAi;
 
 class GameAssister
 {
