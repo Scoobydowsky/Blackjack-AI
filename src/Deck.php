@@ -2,6 +2,8 @@
 
 namespace BlackjackAi;
 
+use http\Exception;
+
 class Deck
 {
     public $card = ['2',"3","4","5","6","7","8","9","10","walet", 'as' ,"dama","krol"];
@@ -18,7 +20,7 @@ class Deck
         }
         echo  PHP_EOL;
     }
-    public function countCards(){
+    public function countCards():int{
         $pts = 0 ;
         foreach ($this->playerCards as $playerCard){
             $cardValue = $playerCard;
@@ -75,7 +77,7 @@ class Deck
         return $this->playerCards[count($this->playerCards)];
     }
 
-    public function drawCardProf($currentAiPTS , $currentPlayerPTS):float{
+    public function doDrawCard($currentAiPTS , $currentPlayerPTS):float{
         $countDraws = 0;
         $countHolds = 0;
         $file = file_get_contents('src/draw.json' );
@@ -101,5 +103,32 @@ class Deck
         }
 
         return $didDrawCard;
+    }
+    public function doDrawCardTest($currentPlayerPTS, $currentDealerPTS):string{
+        //liczniki
+        $counterDraws = 0;
+        $counterHolds = 0;
+        $file = file_get_contents('src/drawTest.json');
+        $testDrawArray = json_decode($file, true);
+        if(empty($testDrawArray)){
+            throw new \Exception("Brak bazy Testowej");
+        }else{
+            foreach ($testDrawArray as ['ptsPlayer'=> $ptsPlayerArr, 'ptsDealer' => $ptsDealerArr, 'decision' => $decisionArr]){
+                if(($ptsPlayerArr === $currentPlayerPTS) && ($currentDealerPTS === $ptsDealerArr) && ($decisionArr ===  'DRAW CARD')){
+                    $counterDraws++;
+
+                }elseif(($ptsPlayerArr === $currentPlayerPTS) && ($currentDealerPTS === $ptsDealerArr) && ($decisionArr ===  'HOLD')){
+                    $counterHolds++;
+                }else{
+
+                }
+            }
+        }
+        if($counterDraws === 1){
+            $prob = DRAW_CARD;
+        }else{
+            $prob = HOLD;
+        }
+        return $prob;
     }
 }

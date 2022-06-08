@@ -6,7 +6,7 @@ class Layout{
     {
         echo  PHP_EOL;
         echo "======================================".PHP_EOL;
-        echo "GAME NO: {$gameNo}". PHP_EOL;
+        echo "GAME NO: $gameNo". PHP_EOL;
         echo  PHP_EOL;
     }
     function showCards($isPlayer,$cardsVar){
@@ -28,6 +28,18 @@ class Layout{
     }
     function EndGameStatus($status){
         echo "======================================".PHP_EOL;
-        echo "KONIEC GRY AI :{$status}".PHP_EOL;
+        echo "GAME OVER AI: {$status}".PHP_EOL;
+    }
+    function TestDealerPtsStatus($dealerPts):string{
+        echo "======================================".PHP_EOL;
+        echo "Punkty Dealera: {$dealerPts}".PHP_EOL;
+        return " ";
+    }
+    function EndGamesSummary($won,$lose,$ties,$playedGames){
+        $games = $playedGames - 1;
+        echo "STATUS po {$games} grze/grach".PHP_EOL;
+        echo "STOSUNEK WYGRANA/PRZEGRANA/REMIS: {$won}/{$lose}/{$ties}".PHP_EOL;
+        $percentage = ($won / ($won + $lose))* 100;
+        echo "% SKUTECZNOŚĆ(remisy są ignorowane): {$percentage} %".PHP_EOL;
     }
 }
